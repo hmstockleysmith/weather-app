@@ -1,5 +1,9 @@
-
-series_titles = ["Maximum temperature (Degree C)", "Minimum temperature (Degree C)", "Rainfall amount (millimetres)"]
+series_titles = [
+    "Maximum temperature (Degree C)",
+    "Minimum temperature (Degree C)",
+    "Rainfall amount (millimetres)",
+    "Temperature range (Degree C)"
+]
 
 def mean(in_series):
     pass
@@ -12,6 +16,20 @@ def standard_deviation(in_series):
 
 def filter_series(year_series, month_series, day_series, data_series, max_date=None, min_date=None):
     pass
+
+def add_temperature_range(data_table):
+    max_series = data_table["Maximum temperature (Degree C)"]
+    min_series = data_table["Minimum temperature (Degree C)"]
+
+    temp_range_series = []
+    for max_temp, min_temp in zip(max_series, min_series):
+        if max_temp is None or min_temp is None:
+            temp_range_series.append(None)
+        else:
+            temp_range_series.append(max_temp - min_temp)
+
+    data_table["Temperature range (Degree C)"] = temp_range_series
+    return data_table
 
 def read_csv(file,default_value=None):
     data_table = {}
@@ -42,4 +60,5 @@ def menu(data_table):
 
 if __name__ == "__main__":
     data = read_csv('weather.csv')
+    data = add_temperature_range(data)
     menu(data)
